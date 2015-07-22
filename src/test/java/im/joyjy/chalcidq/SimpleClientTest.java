@@ -1,12 +1,9 @@
 
 package im.joyjy.chalcidq;
 
-import im.joyjy.chalcidq.Message;
-import im.joyjy.chalcidq.ReceiveHandler;
-import im.joyjy.chalcidq.impls.conn.NettyConnector;
-import im.joyjy.chalcidq.impls.protocol.HornetQProtocol;
+import im.joyjy.chalcidq.trans.impls.NettyConnector;
+import im.joyjy.chalcidq.trans.impls.hornetq.HornetQProtocol;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class SimpleClientTest {
@@ -14,26 +11,26 @@ public class SimpleClientTest {
 	@Test
 	public void ReceiveTest() throws InterruptedException{
 		
-		TestHandler handler = new TestHandler();
+		NettyConnector connector = new NettyConnector("127.0.0.1", 5445, new HornetQProtocol());
+		SimpleClient client1 = new SimpleClient("device.test", connector);
+		client1.setReceiveHandler(new TestHandler(client1));
 		
-		SimpleClient client = new SimpleClient(new NettyConnector("127.0.0.1", 5445, new HornetQProtocol()));
-		client.setReceiveHandler(handler);
-		
-		client.connect();
-		client.register("queue.test");
+		client1.connect();
+		client1.register("address.test");
 		
 		Thread.sleep(5*60*1000);
-		
-		Assert.assertTrue(handler.received);
 	}
 	
 	class TestHandler implements ReceiveHandler{
-		
-		public boolean received;
+
+		private SimpleClient client;
+
+		public TestHandler(SimpleClient client) {
+			this.client = client;
+		}
 
 		public void handle(Message message) {
-			this.received = true;
-			System.out.println(message.getContent()+" - "+message.getTime());
+			System.out.println(client.toString() + message);
 		}
 	}
 	

@@ -1,8 +1,8 @@
-package im.joyjy.chalcidq.impls.protocol;
+package im.joyjy.chalcidq.trans.impls.hornetq;
 
 import java.nio.charset.StandardCharsets;
 
-import im.joyjy.chalcidq.Packet;
+import im.joyjy.chalcidq.trans.Packet;
 import io.netty.buffer.ByteBuf;
 
 public abstract class HornetQMessage extends Packet {
@@ -11,13 +11,16 @@ public abstract class HornetQMessage extends Packet {
 
 	public static final byte PING = 10;
 	public static final byte EXCEPTION = 20;
+	public static final byte NULL_RESPONSE = 21;
 	public static final byte CREATESESSION = 30;
 	public static final byte CREATESESSION_RESP = 31;
+	public static final byte CREATE_QUEUE = 34;
 	public static final byte SESS_CREATESONCUMER = 40;
 	public static final byte SESS_QUEUEQUEUY_RESP = 46;
 	public static final byte SESS_START = 67;
 	public static final byte SESS_FLOWTOKEN = 70;
 	public static final byte SESS_RECEIVE_MSG = 75;
+	public static final byte SESS_INDIVIDUAL_ACKNOWLEDGE = 81;
 	public static final byte SUSCRIBE_TOPOLOGY_V2 = 113;
 	public static final byte CLUSTER_TOPOLOGY_V2 = 114;
 

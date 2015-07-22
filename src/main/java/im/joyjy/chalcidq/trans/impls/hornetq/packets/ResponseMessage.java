@@ -1,6 +1,6 @@
-package im.joyjy.chalcidq.impls.protocol.hornetq;
+package im.joyjy.chalcidq.trans.impls.hornetq.packets;
 
-import im.joyjy.chalcidq.impls.protocol.HornetQMessage;
+import im.joyjy.chalcidq.trans.impls.hornetq.HornetQMessage;
 import io.netty.buffer.ByteBuf;
 
 public class ResponseMessage extends HornetQMessage {

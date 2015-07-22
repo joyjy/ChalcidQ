@@ -1,4 +1,4 @@
-package im.joyjy.chalcidq;
+package im.joyjy.chalcidq.trans;
 
 import io.netty.buffer.ByteBuf;
 
@@ -13,10 +13,6 @@ public abstract class Packet {
 	 * 消息标识
 	 */
 	protected long messageId;
-	/**
-	 * 客户端标识
-	 */
-	protected long clientId;
 
 	/**
 	 * 消息类型

@@ -1,17 +1,18 @@
-package im.joyjy.chalcidq.impls.protocol.hornetq;
+package im.joyjy.chalcidq.trans.impls.hornetq.packets;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import im.joyjy.chalcidq.Message;
-import im.joyjy.chalcidq.impls.protocol.HornetQMessage;
+import im.joyjy.chalcidq.trans.impls.hornetq.HornetQMessage;
 import io.netty.buffer.ByteBuf;
 
 public class ReceivedMessage extends HornetQMessage implements Message {
 
 	private Map<String, Object> properties = new HashMap<String, Object>();
 	private Runnable ack;
+	private String address;
 	private long timstamp;
 
 	public ReceivedMessage() {
@@ -32,7 +33,7 @@ public class ReceivedMessage extends HornetQMessage implements Message {
 		in.readerIndex(offset+4);
 		
 		messageId = in.readLong();
-		readNullableSimpleString(in); // address
+		address = readNullableSimpleString(in); // address
 		in.readByte(); // userId
 		in.readByte(); // type
 		in.readBoolean(); // durable
@@ -54,6 +55,10 @@ public class ReceivedMessage extends HornetQMessage implements Message {
 		}
 	}
 
+	public long getId() {
+		return messageId;
+	}
+
 	public Date getTime() {
 		return new Date(timstamp);
 	}
@@ -69,4 +74,16 @@ public class ReceivedMessage extends HornetQMessage implements Message {
 	public void onAck(Runnable ack){
 		this.ack = ack;
 	}
+
+	public String getTopic() {
+		return address;
+	}
+
+	@Override
+	public String toString() {
+		return "ReceivedMessage [getTime()=" + getTime() + ", getContent()="
+				+ getContent() + ", getTopic()=" + getTopic() + "]";
+	}
+	
+	
 }

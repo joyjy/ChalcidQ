@@ -1,4 +1,7 @@
-package im.joyjy.chalcidq;
+package im.joyjy.chalcidq.trans;
+
+import im.joyjy.chalcidq.Message;
+import im.joyjy.chalcidq.ReceiveHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,9 +68,10 @@ public abstract class Connector {
 
 	/**
 	 * 订阅指定 topic 的消息
-	 * @param topic
+	 * @param address
+	 * @param queueName 
 	 */
-	public abstract void subscribe(String topic);
+	public abstract void subscribe(String address, String queueName);
 	
 	/**
 	 * 向服务端断开连接
@@ -76,18 +80,18 @@ public abstract class Connector {
 
 	/**
 	 * 发送数据包
-	 * @param message
+	 * @param packet
 	 * @return 
 	 */
-	public abstract void send(Packet message);
+	public abstract void send(Packet packet);
 
 	/**
 	 * 发送数据包并等待结果
-	 * @param message
+	 * @param packet
 	 * @param waitingResp
 	 * @return 
 	 */
-	public abstract Packet send(Packet message, int waitingResp);
+	public abstract Packet send(Packet packet, int waitingResp);
 	
 	/**
 	 * 设置消息接收处理回调方法
@@ -101,14 +105,14 @@ public abstract class Connector {
 
 	/**
 	 * 当收到消息时，通知 handler
-	 * @param message
+	 * @param packet
 	 */
-	protected void onReceive(Packet message){
-		if(message instanceof Message){
-			this.handler.handle((Message)message);
-		} else if(message.isResponse()){
+	protected void onReceive(Packet packet){
+		if(packet instanceof Message){
+			this.handler.handle((Message)packet);
+		} else if(packet.isResponse()){
 			synchronized(pollLock){
-				responses.put(message.getType(), message);
+				responses.put(packet.getType(), packet);
 			}
 		}
 	}

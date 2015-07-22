@@ -1,8 +1,8 @@
-package im.joyjy.chalcidq.impls.conn;
+package im.joyjy.chalcidq.trans.impls;
 
-import im.joyjy.chalcidq.Connector;
-import im.joyjy.chalcidq.Packet;
-import im.joyjy.chalcidq.Protocol;
+import im.joyjy.chalcidq.trans.Connector;
+import im.joyjy.chalcidq.trans.Packet;
+import im.joyjy.chalcidq.trans.Protocol;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -93,10 +93,11 @@ public class NettyConnector extends Connector {
 				});
 		
 		ChannelFuture f = b.connect(host, port).awaitUninterruptibly();
-		if(f.isSuccess()){
-			channel = f.channel();
-			protocol.onConnect();
+		if(!f.isSuccess()){
+			throw new RuntimeException(f.cause());
 		}
+		channel = f.channel();
+		protocol.onConnect();
 	}
 
 	@Override
@@ -106,8 +107,8 @@ public class NettyConnector extends Connector {
 	}
 
 	@Override
-	public void subscribe(String topic) {
-		protocol.onSubscribe(topic);
+	public void subscribe(String address, String queueName) {
+		protocol.onSubscribe(address, queueName);
 	}
 
 	@Override

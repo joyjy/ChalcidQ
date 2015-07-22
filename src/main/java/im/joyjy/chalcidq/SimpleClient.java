@@ -1,17 +1,30 @@
 package im.joyjy.chalcidq;
 
+import im.joyjy.chalcidq.trans.Connector;
 
+/**
+ * Client
+ * @author jo
+ *
+ */
 public class SimpleClient {
-
-	private Connector connector;
+	
+	private String clientId;
 	private String topic;
+	private Connector connector;
 
 	/**
 	 * 创建客户端
+	 * @param clientId 
 	 * @param connector
 	 */
-	public SimpleClient(Connector connector) {
+	public SimpleClient(String clientId, Connector connector) {
 		this.connector = connector;
+		this.clientId = clientId;
+	}
+
+	public String getClientId() {
+		return clientId;
 	}
 
 	/**
@@ -47,10 +60,18 @@ public class SimpleClient {
 	 * @param topic
 	 */
 	public void register(String topic) {
-		if (this.topic != null) {
+		if(this.topic != null){
 			throw new RuntimeException();
 		}
 		this.topic = topic;
-		connector.subscribe(topic);
+		connector.subscribe(topic, clientId);
 	}
+
+	@Override
+	public String toString() {
+		return "SimpleClient [clientId=" + clientId + ", topic=" + topic
+				+ ", connector=" + connector + "]";
+	}
+	
+	
 }

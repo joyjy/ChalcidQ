@@ -1,4 +1,4 @@
-package im.joyjy.chalcidq;
+package im.joyjy.chalcidq.trans;
 
 import io.netty.buffer.ByteBuf;
 
@@ -14,7 +14,7 @@ public abstract class Protocol {
 		this.connector = connector;
 	}
 	
-	// difination
+	// Definition
 	
 	/**
 	 * 数据包长度定义字段长度
@@ -44,9 +44,10 @@ public abstract class Protocol {
 
 	/**
 	 * 订阅消息
-	 * @param topic
+	 * @param address
+	 * @param queueName 
 	 */
-	public abstract void onSubscribe(String topic);
+	public abstract void onSubscribe(String address, String queueName);
 	
 	/**
 	 * 断开连接
@@ -55,6 +56,10 @@ public abstract class Protocol {
 	
 	// message
 
+	/**
+	 * 心跳包
+	 * @return
+	 */
 	public abstract Packet heartbeat();
 	
 	/**

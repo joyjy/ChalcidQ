@@ -1,6 +1,6 @@
-package im.joyjy.chalcidq.impls;
+package im.joyjy.chalcidq.trans.impls;
 
-import im.joyjy.chalcidq.Packet;
+import im.joyjy.chalcidq.trans.Packet;
 import io.netty.buffer.ByteBuf;
 
 /**
